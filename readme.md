@@ -20,7 +20,7 @@ The School Vaccination Portal is designed to manage student vaccination records,
 ### Auth API
 * **POST /api/auth/register** Create a user (admin/admin is fine).
 * **POST /api/auth/login** Login and get user token need as bearer token for all other APIs.
-* 
+  
 ### Students API
 
 - **POST** `/api/students`: Add a new student.
@@ -43,3 +43,11 @@ The School Vaccination Portal is designed to manage student vaccination records,
 ### Dashboard API
 
 - **GET** `/api/dashboard/metrics`: Retrieve dashboard metrics.
+
+For detailed Frontend and Backend documentation, please refer the readme files in respective folders.
+
+Note 
+- Sample csv for bulk upload is present inside backend/data folder as well as frontend public/data folder.
+- Postman collection is available inside backend folder.
+- Please follow installation steps (prerequisite and commands to run the project)
+- Do reach out in case of any doubts.

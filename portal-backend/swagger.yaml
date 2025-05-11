@@ -1,0 +1,388 @@
+swagger: "2.0"
+info:
+  description: "API documentation for the School Vaccination Portal"
+  version: "1.0.0"
+  title: "School Vaccination Portal API"
+host: "localhost:5000"
+basePath: "/api"
+schemes:
+- "http"
+securityDefinitions:
+  Bearer:
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+paths:
+  # Authentication APIs
+  /auth/login:
+    post:
+      summary: "Log in a user"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              email:
+                type: "string"
+              password:
+                type: "string"
+      responses:
+        200:
+          description: "User logged in successfully"
+          schema:
+            type: "object"
+            properties:
+              token:
+                type: "string"
+        400:
+          description: "Invalid credentials"
+        500:
+          description: "Internal server error"
+
+  /auth/register:
+    post:
+      summary: "Register a new user"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        201:
+          description: "User registered successfully"
+        400:
+          description: "Invalid input"
+
+  # Student Management APIs
+  /students:
+    get:
+      summary: "Retrieve all students with pagination"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "page"
+          in: "query"
+          type: "integer"
+          description: "Page number for pagination"
+        - name: "limit"
+          in: "query"
+          type: "integer"
+          description: "Number of students per page"
+      responses:
+        200:
+          description: "A list of students"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Student"
+        500:
+          description: "Internal server error"
+    post:
+      summary: "Add a new student"
+      security:
+        - Bearer: []
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/Student"
+      responses:
+        201:
+          description: "Student created successfully"
+        400:
+          description: "Invalid input"
+
+  /students/{id}:
+    get:
+      summary: "Retrieve a student by ID"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Student details"
+          schema:
+            $ref: "#/definitions/Student"
+        404:
+          description: "Student not found"
+    put:
+      summary: "Update a student's details"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/Student"
+      responses:
+        200:
+          description: "Student updated successfully"
+        400:
+          description: "Invalid input"
+        404:
+          description: "Student not found"
+    delete:
+      summary: "Delete a student"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Student deleted successfully"
+        404:
+          description: "Student not found"
+
+  /students/bulk-import:
+    post:
+      summary: "Bulk import students via CSV"
+      security:
+        - Bearer: []
+      consumes:
+        - multipart/form-data
+      parameters:
+        - in: "formData"
+          name: "file"
+          type: "file"
+          required: true
+          description: "CSV file containing student data"
+      responses:
+        201:
+          description: "Students imported successfully"
+        400:
+          description: "Invalid input"
+
+  /students/search:
+    get:
+      summary: "Search students"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "name"
+          in: "query"
+          type: "string"
+          description: "Name of the student"
+        - name: "class"
+          in: "query"
+          type: "string"
+          description: "Class of the student"
+        - name: "studentId"
+          in: "query"
+          type: "string"
+          description: "Student ID"
+        - name: "vaccinationStatus"
+          in: "query"
+          type: "boolean"
+          description: "Vaccination status"
+      responses:
+        200:
+          description: "A list of students matching the search criteria"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Student"
+        500:
+          description: "Internal server error"
+
+  /students/vaccinate/{id}:
+    post:
+      summary: "Mark student as vaccinated"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              vaccineName:
+                type: "string"
+              date:
+                type: "string"
+                format: "date"
+      responses:
+        200:
+          description: "Student vaccination details updated"
+        400:
+          description: "Invalid input or already vaccinated"
+
+  # Vaccination Drive APIs
+  /vaccination-drives:
+    get:
+      summary: "Retrieve all vaccination drives"
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: "A list of vaccination drives"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/VaccinationDrive"
+        500:
+          description: "Internal server error"
+    post:
+      summary: "Create a new vaccination drive"
+      security:
+        - Bearer: []
+      parameters:
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/VaccinationDrive"
+      responses:
+        201:
+          description: "Vaccination drive created successfully"
+        400:
+          description: "Invalid input"
+
+  /vaccination-drives/{id}:
+    get:
+      summary: "Retrieve a vaccination drive by ID"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Vaccination drive details"
+          schema:
+            $ref: "#/definitions/VaccinationDrive"
+        404:
+          description: "Drive not found"
+    put:
+      summary: "Update a vaccination drive"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/VaccinationDrive"
+      responses:
+        200:
+          description: "Vaccination drive updated successfully"
+        400:
+          description: "Invalid input"
+        404:
+          description: "Drive not found"
+    delete:
+      summary: "Delete a vaccination drive"
+      security:
+        - Bearer: []
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Drive deleted successfully"
+        404:
+          description: "Drive not found"
+
+  /dashboard/metrics:
+    get:
+      summary: "Retrieve dashboard metrics"
+      security:
+        - Bearer: []
+      responses:
+        200:
+          description: "Dashboard metrics"
+          schema:
+            type: "object"
+            properties:
+              totalStudents:
+                type: "integer"
+              vaccinatedStudents:
+                type: "integer"
+              vaccinationPercentage:
+                type: "number"
+              upcomingDrives:
+                type: "array"
+                items:
+                  $ref: "#/definitions/VaccinationDrive"
+              message:
+                type: "string"
+        500:
+          description: "Internal server error"
+
+definitions:
+  User:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+      password:
+        type: "string"
+
+  Student:
+    type: "object"
+    properties:
+      _id:
+        type: "string"
+      name:
+        type: "string"
+      class:
+        type: "string"
+      studentId:
+        type: "string"
+      vaccinationStatus:
+        type: "boolean"
+      vaccinationDetails:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            vaccineName:
+              type: "string"
+            date:
+              type: "string"
+              format: "date"
+
+  VaccinationDrive:
+    type: "object"
+    properties:
+      _id:
+        type: "string"
+      vaccineName:
+        type: "string"
+      date:
+        type: "string"
+        format: "date"
+      availableDoses:
+        type: "integer"
+      applicableClasses:
+        type: "array"
+        items:
+          type: "string"

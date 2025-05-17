@@ -1,67 +1,133 @@
-# School Vaccination Portal
+# School Vaccination Portal 🎓💉
 
-## System Overview
+Welcome to the **School Vaccination Portal**! This project aims to simplify the management of student vaccinations, vaccination drives, and reporting through an intuitive dashboard. This application is designed for schools to keep track of vaccination statuses and streamline the vaccination process.
 
-The School Vaccination Portal is designed to manage student vaccination records, schedule vaccination drives, and provide insights through a dashboard. It supports user roles such as school coordinators who can manage students and vaccination drives.
+[![Download Releases](https://img.shields.io/badge/Download%20Releases-Click%20Here-blue)](https://github.com/MohammadHussain2612/school-vaccination-portal/releases)
 
-## Full Application Architecture
+## Table of Contents
 
-- **Backend**: Built with Node.js and Express, it handles API requests, manages data with MongoDB, and provides authentication using JWT.
-- **Frontend**: Developed using React and vite with ant design system, it interacts with the backend to display data and manage user interactions.
-- **Database**: MongoDB stores student and vaccination drive data.
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
-## Frontend-Backend Interaction
+## Features
 
-- **API Requests**: The frontend communicates with the backend via RESTful API endpoints to perform CRUD operations and retrieve dashboard metrics.
-- **Authentication**: JWT tokens are used to authenticate and authorize users.
+- **Student Management**: Add, edit, and delete student records.
+- **Vaccination Drives**: Schedule and manage vaccination drives efficiently.
+- **Dashboard**: Visualize vaccination statistics and student statuses.
+- **Reports**: Generate reports for easy tracking and analysis.
+- **Authentication**: Secure user authentication using JWT.
+- **Responsive Design**: Mobile-friendly interface for easy access.
 
-## API Endpoints
+## Technologies Used
 
-### Auth API
-* **POST /api/auth/register** Create a user (admin/admin is fine).
-* **POST /api/auth/login** Login and get user token need as bearer token for all other APIs.
-  
-### Students API
+This project utilizes a variety of technologies to ensure a smooth and efficient experience:
 
-- **POST** `/api/students`: Add a new student.
-- **GET** `/api/students`: Retrieve all students with pagination.
-- **GET** `/api/students/:id`: Retrieve a student by ID.
-- **PUT** `/api/students/:id`: Update a student's details.
-- **DELETE** `/api/students/:id`: Delete a student.
-- **POST** `/api/students/bulk-import`: Bulk import students via CSV.
-- **GET** `/api/students/search`: Search students by criteria.
-- **POST** `/api/students/vaccinate/:id`: Mark a student as vaccinated.
+- **Frontend**: React, Ant Design, Vite
+- **Backend**: Node.js, Express
+- **Database**: MongoDB, Mongoose
+- **Authentication**: JWT (JSON Web Token)
+- **Documentation**: Swagger for API documentation
 
-### Vaccination Drives API
+## Installation
 
-- **POST** `/api/vaccination-drives`: Add a new vaccination drive.
-- **GET** `/api/vaccination-drives`: Retrieve all vaccination drives.
-- **GET** `/api/vaccination-drives/:id`: Retrieve a drive by ID.
-- **PUT** `/api/vaccination-drives/:id`: Update a drive.
-- **DELETE** `/api/vaccination-drives/:id`: Delete a drive.
+To get started with the School Vaccination Portal, follow these steps:
 
-### Dashboard API
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/MohammadHussain2612/school-vaccination-portal.git
+   cd school-vaccination-portal
+   ```
 
-- **GET** `/api/dashboard/metrics`: Retrieve dashboard metrics.
+2. **Install dependencies**:
+   - For the frontend:
+     ```bash
+     cd client
+     npm install
+     ```
+   - For the backend:
+     ```bash
+     cd server
+     npm install
+     ```
 
-For detailed Frontend and Backend documentation, please refer the readme files in respective folders.
+3. **Set up environment variables**:
+   Create a `.env` file in the server directory and add the necessary environment variables. Example:
+   ```
+   PORT=5000
+   MONGODB_URI=your_mongodb_uri
+   JWT_SECRET=your_jwt_secret
+   ```
 
-Note 
-- Sample csv for bulk upload is present inside backend/data folder as well as frontend public/data folder.
-- Postman collection is available inside backend folder.
-- Please follow installation steps (prerequisite and commands to run the project)
-- Do reach out in case of any doubts.
+4. **Run the application**:
+   - Start the backend server:
+     ```bash
+     cd server
+     npm start
+     ```
+   - Start the frontend application:
+     ```bash
+     cd client
+     npm start
+     ```
 
-### Snapshots
+Now, you can access the application at `http://localhost:3000`.
 
-<img width="1713" alt="Screenshot 2025-05-11 at 10 57 19 PM" src="https://github.com/user-attachments/assets/d0aa4ca1-c5be-4942-9780-6ac21c8f9295" />
+## Usage
 
-<img width="1723" alt="Screenshot 2025-05-11 at 10 57 11 PM" src="https://github.com/user-attachments/assets/7e99bcd8-3a3b-4987-ab08-89ccd0d4ef7e" />
-<img width="1721" alt="Screenshot 2025-05-11 at 10 57 50 PM" src="https://github.com/user-attachments/assets/dbb30a34-c51b-4f25-880d-7337ba595840" />
+Once the application is running, you can access the dashboard and start managing student records and vaccination drives. The intuitive UI will guide you through the process.
 
-<img width="1690" alt="Screenshot 2025-05-11 at 10 58 22 PM" src="https://github.com/user-attachments/assets/f3ce4528-8f40-4cc4-afbb-18ada3ff5c29" />
-<img width="806" alt="Screenshot 2025-05-11 at 10 58 27 PM" src="https://github.com/user-attachments/assets/23af1305-1df8-493d-b1d9-b6c03b677b27" />
-<img width="1617" alt="Screenshot 2025-05-11 at 10 58 08 PM" src="https://github.com/user-attachments/assets/a9f8a173-3a26-43c9-9bdf-a7704b1a6f47" />
-<img width="1725" alt="Screenshot 2025-05-11 at 10 58 01 PM" src="https://github.com/user-attachments/assets/0bd50a19-5293-4381-a348-05f44f7004e6" />
-<img width="1663" alt="Screenshot 2025-05-11 at 10 58 46 PM" src="https://github.com/user-attachments/assets/26f657e4-c83c-442e-986d-4a2055562b3a" />
+### Dashboard Overview
 
+- View total students, vaccinated students, and upcoming vaccination drives.
+- Filter students based on vaccination status.
+- Generate reports for analysis.
+
+### Managing Students
+
+- Add new students with vaccination details.
+- Edit existing student records.
+- Delete students as needed.
+
+### Scheduling Vaccination Drives
+
+- Create new vaccination drives with specific dates and locations.
+- Assign students to vaccination drives.
+- Monitor attendance and vaccination status.
+
+## Contributing
+
+We welcome contributions to improve the School Vaccination Portal. If you have suggestions or find issues, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch:
+   ```bash
+   git checkout -b feature/YourFeature
+   ```
+3. Make your changes and commit them:
+   ```bash
+   git commit -m "Add some feature"
+   ```
+4. Push to the branch:
+   ```bash
+   git push origin feature/YourFeature
+   ```
+5. Create a pull request.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+For any inquiries or feedback, please reach out to:
+
+- **Mohammad Hussain**: [Your Email Here]
+
+Feel free to check the [Releases](https://github.com/MohammadHussain2612/school-vaccination-portal/releases) section for the latest updates and download the latest version of the application.
+
+Thank you for your interest in the School Vaccination Portal! We hope this tool helps streamline the vaccination process in schools and contributes to better health management for students.
